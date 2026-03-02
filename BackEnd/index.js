@@ -1,11 +1,14 @@
 import express from "express";
 import data from './data.js';
+import cors from 'cors';
 
 const app = express();
 
-app.get("/api/designdata",(req,res)=>{
+app.use(cors());
+
+app.get("/api/designdata",(_req,res)=>{
     
-    res.json(data);
+    return res.json(data);
 });
 
 const PORT = process.env.PORT || 5000;
