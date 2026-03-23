@@ -6,8 +6,8 @@ import DesignList from "./DesignList";
 import type { APIResponse } from "./types";
 
 const App = () => {
-  const [design , setDesign ] =useState<APIResponse| null >(null)
-  const [category,setCategory] = useState<string>("All");
+  const [design , setDesign ] =useState<APIResponse | null >(null)
+  const [category,setCategory] = useState<"All" | keyof APIResponse["data"]>("All");
 
   const baseUrl = "https://topdesigns.onrender.com/api/designdata";
 
@@ -17,7 +17,7 @@ const App = () => {
       setDesign(response.data);
       console.log(response.data);
     }catch(error){
-      console.log(error);
+      console.log("error in fetching data",error);
     }
   };
 
@@ -30,12 +30,18 @@ const App = () => {
       <Navbar/>
       {
         design && (
-          <>
-            <FilterButtons setCategory = {setCategory} buttonTitles ={design?.data}/>
-            <DesignList data = {design?.data}/>
-          </>
+          <FilterButtons 
+            buttonTitles={design.data} 
+            setCategory={setCategory} 
+          />
         )
       }
+      {
+        design && (
+          <DesignList category = {category} design = {design}/>
+        )
+      }
+      
     </div>
   )
 }
